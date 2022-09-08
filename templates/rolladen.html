@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+{% block title %}Haussteuerung{% endblock %}
+
+{% block content %}
+
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+
+<script type="text/javascript" charset="utf-8"> 
+    $(document).ready(function() {
+    
+        var socket = io();
+    
+        window.setInterval(function() {
+            socket.emit("rolladenDataGetEvent");
+        }, 50);
+    
+        //event handler for server sent data
+        socket.on("rolladenDataSendEvent", function(msg) {      
+
+            var rooms = ["jan", "leaSleeping", "leaLiving", "parents", "toilet", "guestToilet", "kitchen", "terraRight", "terraLeft", "livingGarage"];
+
+            for (let idx = 0; idx < rooms.length; idx++) {
+
+                roomName = rooms[idx];
+                roomStatus = msg[roomName];
+
+                //room is going up
+                if(roomStatus == 1 || roomStatus == 2){
+                    //console.log("hier");
+                    document.getElementById(roomName.concat("Up")).disabled = true;
+                    document.getElementById(roomName.concat("Down")).disabled = false;
+                }else if (roomStatus == 3 || roomStatus == 4){
+                    //console.log("da");
+                    document.getElementById(roomName.concat("Up")).disabled = false;
+                    document.getElementById(roomName.concat("Down")).disabled = true;
+                }else{
+                    //console.log("dort");
+                    document.getElementById(roomName.concat("Up")).disabled = false;
+                    document.getElementById(roomName.concat("Down")).disabled = false;
+                }
+
+            }
+        });
+    
+    });
+</script>
+
+
+<header>
+    <h1>Rolladen</h1>
+</header>
+
+
+<form action="/rolladen" method="POST">
+<div class="table-responsive">
+ <table>
+    <tr>
+        <td>Terasse rechts </td>
+        <td>
+            <button type="submit" name="up" id="terraRightUp" value="terraRight" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="terraRightDown" value="terraRight" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Terasse links</td>
+        <td>
+            <button type="submit"name="up" id="terraLeftUp" value="terraLeft" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="terraLeftDown" value="terraLeft" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Wohnzimmer Garage</td>
+        <td>
+            <button type="submit" name="up" id="livingGarageUp" value="livingGarage" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="livingGarageDown" value="livingGarage" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>K&uuml;che</td>
+        <td>
+            <button type="submit" name="up" id="kitchenUp" value="kitchen" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="kitchenDown" value="kitchen"  class="btn btn-lg btn-primary">&#9660;</button>
+        </td>    
+    </tr> 
+    <tr>
+        <td>G&auml;ste WC</td>
+        <td>
+            <button type="submit" name="up" id="guestToiletUp" value="guestToilet" class="btn btn-lg btn-primary" >&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="guestToiletDown" value="guestToilet" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Lea's Schlafzimmer</td>
+        <td>
+            <button type="submit"  name="up" id="leaSleepingUp" value="leaSleeping" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit"  name="down" id="leaSleepingDown"  value="leaSleeping" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Lea's Wohnzimmer</td>
+        <td>
+            <button type="submit" name="up" id="leaLivingUp"  value="leaLiving" class="btn btn-lg btn-primary">&#9650;</button>
+        </td>
+        <td>
+            <button type="submit"  name="down" id="leaLivingDown"  value="leaLiving" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Schlafzimmer</td>
+        <td>
+            <button type="submit" name="up" id="parentsUp" value="parents" class="btn btn-lg btn-primary" >&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="parentsDown" value="parents" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Badezimmer</td>
+        <td>
+            <button type="submit" name="up" id="toiletUp" value="toilet" class="btn btn-lg btn-primary" >&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="toiletDown" value="toilet" class="btn btn-lg btn-primary" >&#9660;</button>
+        </td>
+    </tr>
+    <tr>
+        <td>Jan's Zimmer</td>
+        <td>
+            <button type="submit" name="up" id="janUp" value="jan" class="btn btn-lg btn-primary" >&#9650;</button>
+        </td>
+        <td>
+            <button type="submit" name="down" id="janDown" value="jan" class="btn btn-lg btn-primary" >&#9660;</button>
+        </td>
+    </tr>
+</table>
+</div>
+
+</form>
+
+{% endblock %}

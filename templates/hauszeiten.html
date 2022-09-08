@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% block title %}Haussteuerung{% endblock %}
+
+{% block content %}
+
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+
+<form action="/hauszeiten" method="POST">
+<header>
+    <h1>Hauszeiten</h1>
+</header>
+    <p>
+        <h3> Astrozeit </h3>
+        <b>Sonnenaufgang heute: </b>
+        <span name="sunriseToday">{{sunTimes["today"][0]}}</span>        
+        <br>
+        <b>Sonnenuntergang heute: </b>
+        <span name="sunsetToday">{{sunTimes["today"][1]}}</span>
+        <br>
+        <b>Sonnenaufgang morgen: </b>
+        <span name="sunriseTomorrow">{{sunTimes["tomorrow"][0]}}</span>
+        <br>
+        <b>Sonnenuntergang morgen: </b>
+        <span name="sunsetTomorrow">{{sunTimes["tomorrow"][1]}}</span>
+    </p>
+    
+</br>
+
+</br>
+
+<p>
+    Offset Morgen: <input text="number" name="offSetMorning" value={{offSetMorning}}>
+<br/>
+    Offset Abends:  <input text="number" name="offSetEvening" value={{offSetEvening}}> 
+</p>
+
+    <table>
+        <tr>
+            <td> Tage </td>
+            <td> Hoch </td>
+            <td> Runter </td>
+        </tr>
+
+        <tr>
+            <td>Montag</td>
+            <td>
+                <input type="time" name="0UpTime" value={{houseTime["0"][0]}}>
+            </td>
+            <td>
+                 <input type="time" name="0DownTime" value={{houseTime["0"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Dienstag</td>
+            <td>
+                <input type="time" name="1UpTime" value={{houseTime["1"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="1DownTime" value={{houseTime["1"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Mittwoch</td>
+            <td>
+                <input type="time" name="2UpTime" value={{houseTime["2"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="2DownTime" value={{houseTime["2"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Donnerstag</td>
+            <td>
+                <input type="time" name="3UpTime" value={{houseTime["3"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="3DownTime" value={{houseTime["3"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Freitag</td>
+            <td>
+                <input type="time" name="4UpTime" value={{houseTime["4"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="4DownTime" value={{houseTime["4"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Samstag</td>
+            <td>
+                <input type="time" name="5UpTime" value={{houseTime["5"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="5DownTime" value={{houseTime["5"][1]}}>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Sonntag</td>
+            <td>
+                <input type="time"name="6UpTime"  value={{houseTime["6"][0]}}>
+            </td>
+            <td>
+                <input type="time" name="6DownTime" value={{houseTime["6"][1]}}>
+            </td>
+        </tr>
+    </table>
+
+    <button type="submit" name="saveRolloTime" class="btn btn-lg btn-success" value="saveRolloTime">Speichern</button>
+
+</form>
+
+{% endblock %}

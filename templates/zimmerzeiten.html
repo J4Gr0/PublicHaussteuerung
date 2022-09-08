@@ -1,0 +1,247 @@
+{% extends "base.html" %}
+{% block title %}Haussteuerung{% endblock %}
+
+{% block content %}
+
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+
+<header>
+    <h1>Individuelle Zimmerzeiten</h1>
+</header>
+
+
+</br>
+<p>
+    Runterfahren von 00:00 bis 14:59 </br>
+    Hochfahren von 15:00 bis 23:59
+</p>
+
+<form action="/zimmerzeiten" method="POST">
+<div class="table-responsive">
+    <table>
+        <tr>
+            <td>Terasse rechts </td>
+            <td>
+                <input type="checkbox" name="terraRightAllowUpCheckBox" {{house["terraRight"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="terraRightUpTime" value={{house["terraRight"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraRightUpTimeCheckBox" {{house["terraRight"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraRightDownTimeCheckBox" {{house["terraRight"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="terraRightDownTime" value={{house["terraRight"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraRightAllowDownCheckBox" {{house["terraRight"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Terasse links</td>
+            <td>
+                <input type="checkbox" name="terraLeftAllowUpCheckBox" {{house["terraLeft"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="terraLeftUpTime" value={{house["terraLeft"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraLeftUpTimeCheckBox" {{house["terraLeft"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraLeftDownTimeCheckBox" {{house["terraLeft"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="terraLeftDownTime" value={{house["terraLeft"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="terraLeftAllowDownCheckBox" {{house["terraLeft"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Wohnzimmer Garage</td>
+            <td>
+                <input type="checkbox" name="livingGarageAllowUpCheckBox" {{house["livingGarage"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="livingGarageUpTime" value={{house["livingGarage"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="livingGarageUpTimeCheckBox" {{house["livingGarage"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="livingGarageDownTimeCheckBox" {{house["livingGarage"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="livingGarageDownTime" value={{house["livingGarage"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="livingGarageAllowDownCheckBox" {{house["livingGarage"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>K&uuml;che</td>
+            <td>
+                <input type="checkbox" name="kitchenAllowUpCheckBox" {{house["kitchen"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="kitchenUpTime" value={{house["kitchen"].upTimeWebSite}}>
+            </td>
+            <td>
+                <input type="checkbox" name="kitchenUpTimeCheckBox" {{house["kitchen"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="kitchenDownTimeCheckBox" {{house["kitchen"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="kitchenDownTime" value={{house["kitchen"].downTimeWebSite}}>
+            </td>
+            <td>
+                <input type="checkbox" name="kitchenAllowDownCheckBox" {{house["kitchen"].allowDownToday}} />
+            </td>
+
+        </tr>
+        <tr>
+            <td>G&auml;ste WC</td>
+            <td>
+                <input type="checkbox" name="guestToiletAllowUpCheckBox" {{house["guestToilet"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="guestToiletUpTime" value={{house["guestToilet"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="guestToiletUpTimeCheckBox" {{house["guestToilet"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="guestToiletDownTimeCheckBox" {{house["guestToilet"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="guestToiletDownTime" value={{house["guestToilet"].downTimeWebSite}} />    
+            </td>
+            <td>
+                <input type="checkbox" name="guestToiletAllowDownCheckBox" {{house["guestToilet"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Lea's Schlafzimmer</td>
+            <td>
+                <input type="checkbox" name="leaSleepingAllowUpCheckBox" {{house["leaSleeping"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="leaSleepingUpTime" value={{house["leaSleeping"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaSleepingUpTimeCheckBox" {{house["leaSleeping"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaSleepingDownTimeCheckBox" {{house["leaSleeping"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="leaSleepingDownTime" value={{house["leaSleeping"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaSleepingAllowDownCheckBox" {{house["leaSleeping"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Lea's Wohnzimmer</td>
+            <td>
+                <input type="checkbox" name="leaLivingAllowUpCheckBox" {{house["leaLiving"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="leaLivingUpTime" value={{house["leaLiving"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaLivingUpTimeCheckBox" {{house["leaLiving"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaLivingDownTimeCheckBox" {{house["leaLiving"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="leaLivingDownTime" value={{house["leaLiving"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="leaLivingAllowDownCheckBox" {{house["leaLiving"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Schlafzimmer</td>
+            <td>
+                <input type="checkbox" name="parentsAllowUpCheckBox" {{house["parents"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="parentsUpTime" value={{house["parents"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="parentsUpTimeCheckBox" {{house["parents"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="parentsDownTimeCheckBox" {{house["parents"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="parentsDownTime" value={{house["parents"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="parentsAllowDownCheckBox" {{house["parents"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Badezimmer</td>
+            <td>
+                <input type="checkbox" name="toiletAllowUpCheckBox" {{house["toilet"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="toiletUpTime" value={{house["toilet"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="toiletUpTimeCheckBox" {{house["toilet"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="toiletDownTimeCheckBox" {{house["toilet"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="toiletDownTime" value={{house["toilet"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="toiletAllowDownCheckBox" {{house["toilet"].allowDownToday}} />
+            </td>
+        </tr>
+        <tr>
+            <td>Jan's Zimmer</td>
+            <td>
+                <input type="checkbox" name="janAllowUpCheckBox" {{house["jan"].allowUpToday}} />
+            </td>
+            <td>
+                <input type="time" name="janUpTime" value={{house["jan"].upTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="janUpTimeCheckBox" {{house["jan"].gotOwnUpTime}} />
+            </td>
+            <td>
+                <input type="checkbox" name="janDownTimeCheckBox" {{house["jan"].gotOwnDownTime}} />
+            </td>
+            <td>
+                <input type="time" name="janDownTime" value={{house["jan"].downTimeWebSite}} />
+            </td>
+            <td>
+                <input type="checkbox" name="janAllowDownCheckBox" {{house["jan"].allowDownToday}} />
+            </td>
+        </tr>
+    </table>
+    <button type="submit" name="saveTimeButton" value="saveTime" class="btn btn-lg btn-success">Speichern</button>
+
+</div>
+
+</form>
+
+{% endblock %}

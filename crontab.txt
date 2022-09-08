@@ -1,0 +1,5 @@
+
+
+crontab -e
+
+@reboot cd /home/pi/Documents/Final && /home/pi/Documents/Final/virtualenv_name/bin/python3.7 /home/pi/Documents/Final/Haussteuerung/webApp.py > /tmp/cronlog.txt 2>&1

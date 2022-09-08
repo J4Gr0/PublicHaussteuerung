@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% block title %}Haussteuerung{% endblock %}
+
+{% block content %}
+
+<style>
+    table, th, td {
+      border: 1px solid black;
+    }
+</style>
+
+<script type="text/javascript" charset="utf-8"> 
+    $(document).ready(function() {
+    
+        var socket = io();
+    
+        window.setInterval(function() {
+            socket.emit("haussteuerungDataGetEvent");
+        }, 50);
+    
+        //event handler for server sent data
+        socket.on("haussteuerungDataSendEvent", function(msg) {      
+            
+
+            if(msg["pumpShouldBeOff"] == true){
+                document.getElementById("pumpStatus").textContent = "aus";
+                document.getElementById("pumpButtonOn").disabled = true;
+                document.getElementById("pumpButtonOff").disabled = true;
+            }else{
+                if(msg["pumpStatus"] == true){
+                    document.getElementById("pumpStatus").textContent  = "an";
+                    document.getElementById("pumpButtonOn").disabled = true;
+                    document.getElementById("pumpButtonOff").disabled = false;
+
+                }else if(msg["pumpStatus"] == false){
+                    document.getElementById("pumpStatus").textContent = "aus";
+                    document.getElementById("pumpButtonOn").disabled = false;
+                    document.getElementById("pumpButtonOff").disabled = true;
+                }
+            }
+
+            if(msg["alarmStatus"] == true){
+                document.getElementById("alarmStatus").textContent = "an";
+                document.getElementById("alarmButtonOn").disabled = true;
+                document.getElementById("alarmButtonOff").disabled = false;
+            }else{
+
+                if(msg["alarmCanStart"] == true){
+                    document.getElementById("alarmStatus").textContent = "aus";
+                    document.getElementById("alarmButtonOn").disabled = false;
+                    document.getElementById("alarmButtonOff").disabled = true;
+                }else{
+                    document.getElementById("alarmStatus").textContent = "Fenster auf";
+                    document.getElementById("alarmButtonOn").disabled = true;
+                    document.getElementById("alarmButtonOff").disabled = true;
+                }
+            }
+
+            if(msg["fanStatus"] == true){
+                document.getElementById("fanStatus").textContent  = "an";
+                document.getElementById("fanButtonLong").disabled = true;
+                document.getElementById("fanButtonShort").disabled = true;
+                document.getElementById("fanButtonOff").disabled = false;
+
+            }else if(msg["fanStatus"] == false){
+                document.getElementById("fanStatus").textContent = "aus";
+                document.getElementById("fanButtonLong").disabled = false;
+                document.getElementById("fanButtonShort").disabled = false;
+                document.getElementById("fanButtonOff").disabled = true;
+            }
+
+            if(msg["radioStatus"] == true){
+                document.getElementById("radioStatus").textContent  = "an";
+                document.getElementById("radioButtonLong").disabled = true;
+                document.getElementById("radioButtonShort").disabled = true;
+                document.getElementById("radioButtonOff").disabled = false;
+
+            }else if(msg["radioStatus"] == false){
+                document.getElementById("radioStatus").textContent = "aus";
+                document.getElementById("radioButtonLong").disabled = false;
+                document.getElementById("radioButtonShort").disabled = false;
+                document.getElementById("radioButtonOff").disabled = true;
+            }
+
+            if(msg["rolloStatus"] == true){
+                document.getElementById("rolloStatus").textContent  = "fahren";
+                //document.getElementById("upButtonAll").disabled = true;
+                //document.getElementById("downButtonAll").disabled = true;
+
+            }else if(msg["rolloStatus"] == false){
+                document.getElementById("rolloStatus").textContent = "stehen";
+                //document.getElementById("upButtonAll").disabled = false;
+                //document.getElementById("downButtonAll").disabled = false;
+            }
+
+        });
+    
+    });
+</script>
+
+<header>
+    <h1>Haussteuerung</h1>
+</header>
+
+</br>
+<form action="/haussteuerung" method="POST">
+<table> 
+    <tr>
+        <td>
+            <b>RolloStatus: <span id="rolloStatus"></span></b>
+        </td>
+        <td>
+                <button type="submit" name="rollo" id="upButtonAll" value="upAll" class="btn btn-lg btn-primary" >&#9650;</button>
+        </td>
+        <td>
+                <button type="submit" name="rollo" id="downButtonAll" value="downAll" class="btn btn-lg btn-primary">&#9660;</button>
+        </td>
+    </tr>
+    
+    <tr>    
+        <td>
+            <b>VentiStatus: <span id="fanStatus"></span></b>
+        </td>
+        <td>
+            <button type="submit" name="fan" id="fanButtonShort" value="fanOnShort" class="btn btn-lg btn-success" >Kurz</button>
+        </td>
+        <td>
+            <button type="submit" name="fan" id="fanButtonLong" value="fanOnLong" class="btn btn-lg btn-success" >Lang</button>
+        </td>
+        <td>
+            <button type="submit" name="fan" id="fanButtonOff" value="fanOff" class="btn btn-lg btn-danger">Aus</button>
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <b>RadioStatus: <span id="radioStatus"></span> </b>
+        </td>
+        <td>
+            <button type="submit" name="radio" id="radioButtonLong" value="radioOnShort" class="btn btn-lg btn-success" >Kurz</button>
+        </td>
+        <td>
+            <button type="submit" name="radio" id="radioButtonShort" value="radioOnLong" class="btn btn-lg btn-success" >Lang</button>
+        </td>
+        <td>
+            <button type="submit" name="radio" id="radioButtonOff" value="radioOff" class="btn btn-lg btn-danger">Aus</button>
+        </td>
+    </tr>      
+    <tr>
+        <td>
+            <b>PumpeStatus: <span id="pumpStatus"></span> </b>
+        </td>
+        <td>
+            <button type="submit" name="pump" id="pumpButtonOn" value="pumpOn" class="btn btn-lg btn-success">An</button>
+        </td>
+        <td>
+            <button type="submit" name="pump" id="pumpButtonOff" value="pumpOff" class="btn btn-lg btn-danger">Aus</button>
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <b> AlarmStatus: <span id="alarmStatus"></span> </b>
+        </td>
+        <td>
+                <button type="submit" name="alarm" id="alarmButtonOn" value="alarmOn" class="btn btn-lg btn-success">An</button>
+        </td>
+        <td>
+                <button type="submit" name="alarm" id="alarmButtonOff" value="alarmOff" class="btn btn-lg btn-danger">Aus</button> 
+
+        </td>
+    </tr>
+</table>
+</form>
+
+{% endblock %}

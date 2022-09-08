@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% block title %}Haussteuerung{% endblock %}
+
+{% block content %}
+
+<style>
+    table,
+    th,
+    td {
+        border: 1px solid black;
+    }
+</style>
+
+
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function () {
+
+        var socket = io();
+
+        window.setInterval(function () {
+            socket.emit("pumpDataGetEvent");
+        }, 50);
+
+        //event handler for server sent data
+        socket.on("pumpDataSendEvent", function (msg) {
+
+            if (msg["pumpShouldBeOff"] == true) {
+                document.getElementById("pumpStatus").textContent = "aus";
+                document.getElementById("pumpButtonOn").disabled = true;
+                document.getElementById("pumpButtonOff").disabled = true;
+            } else {
+
+                if (msg.pumpStatus == true) {
+                    document.getElementById("pumpStatus").textContent = "an";
+                    document.getElementById("pumpButtonOn").disabled = true;
+                    document.getElementById("pumpButtonOff").disabled = false;
+
+                } else {
+                    document.getElementById("pumpStatus").textContent = "aus";
+                    document.getElementById("pumpButtonOn").disabled = false;
+                    document.getElementById("pumpButtonOff").disabled = true;
+                }
+            }
+        });
+
+    });
+</script>
+
+
+<header>
+    <h1>Pumpe</h1>
+</header>
+
+<form action="/pumpe" method="POST">
+    </br>
+
+    <b> Pumpe ist <span id="pumpStatus"> . </span></b>
+
+    </br>
+    </br>
+
+    <table>
+        <tr>
+            <td>
+                <button type="submit" name="pumpButton" id="pumpButtonOn" class="btn btn-lg btn-success"
+                    value="pumpOn">An</button>
+            </td>
+            <td>
+                <button type="submit" name="pumpButton" id="pumpButtonOff" class="btn btn-lg btn-danger"
+                    value="pumpOff">Aus</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Montag">Montag</td>
+            <td>
+                <input type="time" name="0PumpTime" value={{ content["0"][0] }} />
+                <input type="checkbox" name="0CheckBox" {{ content["0"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Dienstag">Dienstag</td>
+            <td>
+                <input type="time" name="1PumpTime" value={{ content["1"][0] }} />
+                <input type="checkbox" name="1CheckBox" {{ content["1"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Mittwoch">Mittwoch</td>
+            <td>
+                <input type="time" name="2PumpTime" value={{ content["2"][0] }} />
+                <input type="checkbox" name="2CheckBox" {{ content["2"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Donnerstag">Donnerstag</td>
+            <td>
+                <input type="time" name="3PumpTime" value={{ content["3"][0] }} />
+                <input type="checkbox" name="3CheckBox" {{ content["3"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Freitag">Freitag</td>
+            <td>
+                <input type="time" name="4PumpTime" value={{ content["4"][0] }} />
+                <input type="checkbox" name="4CheckBox" {{ content["4"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Samstag">Samstag</td>
+            <td>
+                <input type="time" name="5PumpTime" value={{ content["5"][0] }} />
+                <input type="checkbox" name="5CheckBox" {{ content["5"][1] }} />
+            </td>
+        </tr>
+
+        <tr>
+            <td id="Pumpe_Sonntag">Sonntag</td>
+            <td>
+                <input type="time" name="6PumpTime" value={{ content["6"][0] }} />
+                <input type="checkbox" name="6CheckBox" {{ content["6"][1] }} />
+            </td>
+        </tr>
+    </table>
+    <button type="submit" name="pumpButton" class="btn btn-lg btn-success" value="savePumpTime">Speichern</button>
+</form>
+
+{% endblock %}
