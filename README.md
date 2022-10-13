@@ -4,8 +4,8 @@ In diesem Repository ist eine selbstprogammierte Haussteuerung enthalten.
 
 ## Einführung
 
-Die Haussteuerung meines Vaters, die auf einem Arduino Uno programmiert wurde, habe ich nun mit durch einen Raspberry Pi ersetzt.
-Durch den Einsatz des Raspberry Pis sind noch einige neue Features hinzugekommen, die mit einem Arduino nur schwer, oder gar nicht umsetzen sind.
+Die Haussteuerung meines Vaters, die auf einem Arduino Uno programmiert wurde, habe ich nun durch einen Raspberry Pi ersetzt.
+Durch den Einsatz des Raspberry Pis sind noch einige neue Features hinzugekommen, die mit einem Arduino nur schwer, oder gar nicht umzusetzen sind.
 Das neue Main-Feature ist das Hosten einer Website, womit zusätzliche Einstellungsmöglichkeiten gegeben sind.
 
 In diesem Repository ist bis auf "portExpander.py" alles selber geschrieben. Den [Inhalt](https://github.com/petrockblog/RPi-MCP23S17)
@@ -23,7 +23,7 @@ Daher kann es hier und da mal ein wenig "unschön" sein.
 
 ## Abhängigkeiten
 
-Folgende Packete habe ich installiert:
+Folgende Packete sind auf dem Pi installiert:
 
 * **astral 2.2**
 * bidict 0.21.2
@@ -63,12 +63,22 @@ Die gesamten Files liegen bis auf die HTML-Files in einem Ordner.
 Mit `crontab -e` und der Zeile in *crontab.txt* wird dann das Skript automatisch nach dem starten des Pis gestartet. 
 (Natürlich muss man den Pfad anpassen!)
 
-Zusätzlich sollten noch die Name der Räume angepasst werden und der Ort in sunTimeHandler.py.
+Zusätzlich sollten noch die Name der Räume angepasst werden, eine eigene E-Mail angegeben werden und der Ort in sunTimeHandler.py.
 
 ## Schaltplan
 
-Einen Schaltplan habe ich direkt nicht, da bereits alles im Haus verdrahtet war. 
-Ich kann dazu eigentlich nur sagen, dass ein Transistor einen Relais schaltet, der dann den Rolladenmoter fahren lässt.
-Der Masse-Signal-Pin (GroundCentral) im Code dient dazu, das manuelle Betätigen der Schalter zu verhinden.
-Deshalb muss der immer an sein, während die Rolladen mit Hilfe des Raspberry Pis fahren. 
+Das Hoch-und Runterfahren der Rolladen wird über drei verschiedene Relais gesteuert. Das Relais "Masse Zentral" ist dafür da,
+dass das manuelle Fahren der Rolladen über die normalen Schalter verhindert wird, wenn die Rolladen über die Website gefahren werden.
+Die Vorderseite und Rückseite der Platine ist ebenfalls abgebildet.
 
+|![Schaltplan](img/Schaltbild.jpg)|
+|:--:|
+|Schaltplan für Rolladensteuerung|
+
+|![Schaltplan](img/Vorderseite.jpg)|
+|:--:|
+|Vorderseite der Platine mit Verdrahtung ins Haus|
+
+|![Schaltplan](img/Rückseite.jpg)|
+|:--:|
+|Rückseite der Platine|
